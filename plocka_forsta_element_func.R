@@ -2,7 +2,7 @@
 plocka_forsta_element <- function(vektor, taBort = TRUE) {
   
   # Om en vektor matats in under argumentet 'vektor' så måste vektorns namn sparas.
-  if (!(is.character(vektor))) {
+  if (!(is.character(substitute(vektor)))) {
     # Hämta namnet på vektorn som en sträng.
     vektorNamn <- deparse(substitute(vektor))
   }
