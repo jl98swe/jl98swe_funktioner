@@ -6,16 +6,17 @@ forbered_bef_pyramid_func <- function(data, Kon_kolumn, Varde_kolumn){
   Kon_kolumn <- ensym(Kon_kolumn)     # Konvertera Kon_kolumn till symbol.
   Varde_kolumn <- ensym(Varde_kolumn) # Konvertera Varde_kolumn till symbol.
   
-  # Returnera 'data' med en ny kolumn 'multiplikator'.
+  # Returnera 'data' där 'Varde_kolumn' är negativ för kvinnor och fortfarande positiv för män.
   data %>%
     group_by(!!Kon_kolumn) %>%         # Gruppera efter Kon_kolumn (konvertera till symbol med !!).
     mutate(
       multiplikator = cur_group_id(),  # Skapa 'multiplikator' baserat på gruppens id vilket skapas alfabetiskt. 1 - Kvinnor, 2 - Män.
       multiplikator = case_when(
-        multiplikator == 2 ~ 1,        # Justera multiplikatorer vid behov. Män får värdet 1 och kvinnor får värdet -1.
+        multiplikator == 2 ~ 1,        # Män får värdet 1 och kvinnor får värdet -1.
         multiplikator == 1 ~ -1
       )
     ) %>%
     ungroup() %>%                   # Kom ihåg att alltid avgruppera!
-    mutate(!!Varde_kolumn := !!Varde_kolumn * multiplikator)  # Uppdatera Varde_kolumn med multiplikatorn.
+    mutate(!!Varde_kolumn := !!Varde_kolumn * multiplikator) %>%  # Uppdatera Varde_kolumn med multiplikatorn.
+    select(-multiplikator)
 }
