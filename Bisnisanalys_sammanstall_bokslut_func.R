@@ -82,12 +82,15 @@ sammanstall_bokslut <- function(arbetskatalog = "~/FoI-projekt/Bokslut",
                                 utmapp = "~/FoI-projekt/",
                                 sparaExcel = FALSE) {
   
-  # Ladda lista av alla sökvägar som finns i arbetskatalogen och har filtillägg "xlsx".
+  # Ladda lista med namnen på alla filer med filtillägg "xlsx".
   file_list <- list.files(path = arbetskatalog,
                           pattern = '*.xlsx')
   
+  # Lägg till filsökvägen (arbetskatalogen) till listan med namn på filer.
+  path_list <- paste0(arbetskatalog, "/", file_list)
+  
   # Läs och bearbeta Excel-filer.
-  df_list <- lapply(file_list, bearbeta_bokslut, nyckeltal = nyckeltal)
+  df_list <- lapply(path_list, bearbeta_bokslut, nyckeltal = nyckeltal)
   
   # Kombinera alla data frames till en enda data frame.
   df <- do.call(rbind, df_list)
@@ -103,6 +106,3 @@ sammanstall_bokslut <- function(arbetskatalog = "~/FoI-projekt/Bokslut",
   
   return(df)
 }
-
-
-
