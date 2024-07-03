@@ -1,6 +1,10 @@
 ### Funktioner för att skapa en befolkningspyramid.
 
+## Ladda paket.
+if (!require("tidyverse")) install.packages("tidyverse")
+
 forbered_bef_pyramid_func <- function(data, Kon_kolumn, Varde_kolumn){
+  # Funktion för att dela skapa negativa värden för kvinnor och positiva för män i skapandet av en befolkningspyramid.
   
   # Ser till att det både går att skicka namnet på en kolumn med eller utan "". Svårt att förstå hur det fungerar.
   Kon_kolumn <- ensym(Kon_kolumn)     # Konvertera Kon_kolumn till symbol.
