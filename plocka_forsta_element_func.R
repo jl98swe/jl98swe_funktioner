@@ -1,5 +1,5 @@
-# Funktion som returnerar det första elementet från en vektor. Kan även ta bort elementet från vektorn i den globala miljön.
 plocka_forsta_element <- function(vektor, taBort = TRUE) {
+  # Funktion som returnerar det första elementet från en vektor. Kan även ta bort elementet från vektorn i den globala miljön.
   
   # Om en vektor matats in under argumentet 'vektor' så måste vektorns namn sparas.
   if (!(is.character(substitute(vektor)))) {
