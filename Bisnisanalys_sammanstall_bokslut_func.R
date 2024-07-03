@@ -14,18 +14,10 @@ bearbeta_bokslut <- function(filNamn, nyckeltal) {
   #   nyckeltal   Vektor som innehåller alla nyckeltal av intresse.
   # Utdata:
   #   df          Data frame med kolumner innehållande företagsinformation, årtal och nyckeltal.
-
-  # Identifiera filtyp baserat på filändelse
-  filtyp <- tools::file_ext(filNamn)
   
-  # Läs fil baserat på filtyp.
-  df <- switch(filtyp,
-               "xlsx" = read_excel(filNamn, col_names = FALSE),
-               "xls" = readxl::read_excel(filNamn, col_names = FALSE),
-               "csv" = read.csv(filNamn, header = FALSE),
-               "txt" = read.delim(filNamn, header = FALSE),
-               stop("Ogiltig filtyp. Stödda typer är 'xlsx', 'csv', och 'txt'.")
-  ) %>% suppressMessages()
+  # Läs Excel-fil. OBS: Läser fil från aktuell arbetskatalog.
+  df <- read_excel(filNamn, col_names = FALSE) %>%
+    suppressMessages()
   
   # Hämta namnet som alltid återfinns på rad 1 kolumn 2.
   namn <- df[1, 2] %>% as.character()
@@ -78,22 +70,20 @@ bearbeta_bokslut <- function(filNamn, nyckeltal) {
 sammanstall_bokslut <- function(arbetskatalog = "~/FoI-projekt/Bokslut",
                                 nyckeltal = c("Nettoomsättning", "Årets resultat", "Antal anställda"),
                                 utmapp = "~/FoI-projekt/",
-                                sparaExcel = FALSE,
-                                filtyp = ".xlsx") {
+                                sparaExcel = FALSE) {
   ## Arbetsordning:
-  ## Först skapas bearbeta_bokslut(), sedan skapas en vektor av de önskade nyckeltalen 
-  ## och en lista av alla filer. Vektorn och listan används i sin tur som
-  ## argument i bearbeta_bokslut(). Resultatet blir flera data frames som innehåller;
+  ## Först skapas en funktion, sedan skapas en vektor av de önskade nyckeltalen 
+  ## och en lista av alla Excel-filer. Vektorn och listan används i sin tur som
+  ## argument i funktionen. Resultatet blir en data frame som innehåller;
   ## organisationsnummer, företagsnamn, årtal, nyckeltalen som önskas samt värdena
-  ## för nyckeltalen. Dessa slås sedan ihop till en data frame i den här funktionen
-  ## som returneras, men som också kan skrivas till utmappen.
-
-  ## OBS: Alla filer måste ligga i samma mapp. Alla filer av vald filtyp kommer
-  ## att läsas in så låt inte överflödiga filer av samma filtyp ligga i samma mapp.
+  ## för nyckeltalen.
   
-  # Ladda lista med namnen på alla filer med filtillägg 'filtyp'.
+  ## OBS: Alla Excel-filer måste ligga i samma mapp. Alla excel-filer i mappen
+  ## kommer att läsas in så låt inte överflödiga Excel-filer ligga i samma mapp.
+  
+  # Ladda lista med namnen på alla filer med filtillägg "xlsx".
   file_list <- list.files(path = arbetskatalog,
-                          pattern = paste0("*", filtyp))
+                          pattern = '*.xlsx')
   
   # Lägg till filsökvägen (arbetskatalogen) till listan med namn på filer.
   path_list <- paste0(arbetskatalog, "/", file_list)
@@ -107,10 +97,10 @@ sammanstall_bokslut <- function(arbetskatalog = "~/FoI-projekt/Bokslut",
   # Återställ radnamnen.
   rownames(df) <- NULL
   
-  ## Spara data frame som en fil av vald filtyp.
+  ## Spara data frame som en Excel-fil.
   if (sparaExcel) {
     write_xlsx(df,
-               path = paste0(utmapp, "Sammanställning", filtyp)) # "Sammanställning..." är det valda namnet på filen.
+               path = paste0(utmapp, "Sammanställning.xlsx")) # Sammanställning.xlsx är det valda namnet på filen.
   }
   
   return(df)
