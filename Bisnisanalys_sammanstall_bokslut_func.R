@@ -21,6 +21,7 @@ bearbeta_bokslut <- function(filNamn, nyckeltal) {
   # Läs fil baserat på filtyp.
   df <- switch(filtyp,
                "xlsx" = read_excel(filNamn, col_names = FALSE),
+               "xls" = readxl::read_excel(filNamn, col_names = FALSE),
                "csv" = read.csv(filNamn, header = FALSE),
                "txt" = read.delim(filNamn, header = FALSE),
                stop("Ogiltig filtyp. Stödda typer är 'xlsx', 'csv', och 'txt'.")
