@@ -7,16 +7,16 @@ if (!require("readxl")) install.packages("readxl")
 if (!require("writexl")) install.packages("writexl")
 if (!require("tools")) install.packages("tools")
 
-bearbeta_bokslut <- function(filNamn, nyckeltal) {
+bearbeta_bokslut <- function(filnamn, nyckeltal) {
   # Funktion för att läsa Excel-filer, lägga till filnamn som en kolumn, filtrera rader och transponera.
   # Indata:
-  #   filNamn     Namn på filsökväg inklusive filnamnet (organisationsnumret) plus filtillägget.
+  #   filnamn     Namn på filsökväg inklusive filnamnet (organisationsnumret) plus filtillägget.
   #   nyckeltal   Vektor som innehåller alla nyckeltal av intresse.
   # Utdata:
   #   df          Data frame med kolumner innehållande företagsinformation, årtal och nyckeltal.
   
   # Läs Excel-fil. OBS: Läser fil från aktuell arbetskatalog.
-  df <- read_excel(filNamn, col_names = FALSE) %>%
+  df <- read_excel(filnamn, col_names = FALSE) %>%
     suppressMessages()
   
   # Hämta namnet som alltid återfinns på rad 1 kolumn 2.
@@ -30,7 +30,7 @@ bearbeta_bokslut <- function(filNamn, nyckeltal) {
   df <- df[-c(1:7), ]
   
   # Extrahera organisationsnummer utan tillägg.
-  org_nr <- file_path_sans_ext(basename(filNamn))
+  org_nr <- file_path_sans_ext(basename(filnamn))
   
   # Filtrera rader så att endast de som finns i 'nyckeltal' behålls.
   df <- df %>%
