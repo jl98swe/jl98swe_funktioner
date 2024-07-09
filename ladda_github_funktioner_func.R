@@ -1,4 +1,8 @@
-ladda_github_funktioner <- function(repo_owner, repo_name, branch = "main", folder = NULL, filtyp = ".R") {
+ladda_github_funktioner <- function(repo_owner = "jl98swe",
+                                    repo_name "jl98swe_funktioner",
+                                    branch = "main",
+                                    folder = NULL,
+                                    filtyp = ".R") {
   
   # Skapa URL:en.
   url <- paste0("https://api.github.com/repos/", repo_owner, "/", repo_name, "/contents")
