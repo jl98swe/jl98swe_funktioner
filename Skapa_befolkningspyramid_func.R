@@ -17,10 +17,11 @@ forbered_bef_pyramid_func <- function(data, Kon_kolumn, Varde_kolumn){
       multiplikator = cur_group_id(),  # Skapa 'multiplikator' baserat på gruppens id vilket skapas alfabetiskt. 1 - Kvinnor, 2 - Män.
       multiplikator = case_when(
         multiplikator == 2 ~ 1,        # Män får värdet 1 och kvinnor får värdet -1.
-        multiplikator == 1 ~ -1
+        multiplikator == 1 ~ -1,
+        TRUE ~ 1  # Gruppen med totalt förblir oförändrad.
       )
     ) %>%
     ungroup() %>%                   # Kom ihåg att alltid avgruppera!
     mutate(!!Varde_kolumn := !!Varde_kolumn * multiplikator) %>%  # Uppdatera Varde_kolumn med multiplikatorn.
-    select(-multiplikator)
+    select(-multiplikator) # Ta bort multiplikatorn från data framen.
 }
