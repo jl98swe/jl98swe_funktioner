@@ -4,6 +4,12 @@ if (!require("tidyverse")) install.packages("tidyverse")
 SNI_sektor_till_Raps <- function(df = stativ_tot) {
   # Funktion som lägger till en ny kolumn med Raps-branscher (3-siffrig kod) till en befintlig data frame (som måste innehålla kolumnerna 'AstSNI2007' och 'InstKod10').
   
+  # Felhantering.
+  if (!all(c("AstSNI2007", "InstKod10") %in% colnames(df))) {
+    stop("Error: Data framen som matas in måste innehålla kolumnerna 'AstSNI2007' and 'InstKod10'.")
+  }
+  
+  # Uppdaterar och returnerar en data frame.
   df <- df %>%
     mutate(rapsBranschKod = case_when( # lägg till kolumnen 'rapsBranschKod' vars värde fås utifrån vilket villkor som blivit uppfyllt nedan.
       substr(AstSNI2007,1,2)=='01' & substr(InstKod10,1,2) %in% c('11','12','14') ~ '001',
