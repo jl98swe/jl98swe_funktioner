@@ -1,5 +1,5 @@
 ladda_github_funktioner <- function(repo_owner = "jl98swe",
-                                    repo_name "jl98swe_funktioner",
+                                    repo_name = "jl98swe_funktioner",
                                     branch = "main",
                                     folder = NULL,
                                     filtyp = ".R") {
