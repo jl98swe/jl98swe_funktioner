@@ -11,8 +11,25 @@ egen_source <- function(url, ...) {
   if (grepl("^https://raw.githubusercontent.com", url)) {
     response <- GET(url)
     if (status_code(response) == 200) {
+      
+      # Hämta innehållet som text.
       content <- rawToChar(response$content)
-      eval(parse(text = content), envir = parent.frame())
+      
+      # Dela upp innehållet radvis.
+      lines <- strsplit(content, "\n")[[1]]
+      
+      # Trimma varje rad för att ta bort osynliga tecken som mellanslag och tabb.
+      trimmedLines <- trimws(lines)
+      
+      # Filtrera bort alla rader som börjar med "# -" då det uppstod problem när "fjoin_med_klartext2.R" skulle laddas in.
+      cleanedLines <- trimmedLines[!grepl("^# -", trimmedLines)]
+      
+      # Sätt ihop de återstående raderna igen.
+      cleanedContent <- paste(cleanedLines, collapse = "\n")
+      
+      # Tolka och kör den städade koden.
+      eval(parse(text = cleanedContent), envir = parent.frame())
+      
     } else {
       stop(paste("Fel vid hämtning av fil. Statuskod:", status_code(response)))
     }
