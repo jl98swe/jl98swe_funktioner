@@ -7,10 +7,13 @@ SNI_sektor_till_Raps <- function(df = stativ_tot) {
   # -------------------------------------------------------------------
   #
   # Indata:
-  # - Data frame som innehåller kolumnerna 'AstSNI2007' och 'InstKod10'. Förslagsvis hämtad från 'stativ_tot'.
+  # - df: Data frame som innehåller kolumnerna 'AstSNI2007' och 'InstKod10'. Förslagsvis hämtad från 'stativ_tot'.
   #
   # Utdata:
   # - Samma data frame som matades in men nu med en till kolumn med Raps-branscher (3-siffrig kod).
+  #
+  # Skapad av Joe Lindehag, Region Norrbotten.
+  # Senast uppdaterad: 2024-12-19
   
   # Ladda in paket.
   if (!require("tidyverse")) install.packages("tidyverse")
