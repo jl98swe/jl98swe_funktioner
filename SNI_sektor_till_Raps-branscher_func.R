@@ -1,12 +1,23 @@
-## Ladda in paket.
-if (!require("tidyverse")) install.packages("tidyverse")
+
 
 SNI_sektor_till_Raps <- function(df = stativ_tot) {
+  
+  # -------------------------------------------------------------------
   # Funktion som lägger till en ny kolumn med Raps-branscher (3-siffrig kod) till en befintlig data frame (som måste innehålla kolumnerna 'AstSNI2007' och 'InstKod10').
+  # -------------------------------------------------------------------
+  #
+  # Indata:
+  # - Data frame som innehåller kolumnerna 'AstSNI2007' och 'InstKod10'. Förslagsvis hämtad från 'stativ_tot'.
+  #
+  # Utdata:
+  # - Samma data frame som matades in men nu med en till kolumn med Raps-branscher (3-siffrig kod).
+  
+  # Ladda in paket.
+  if (!require("tidyverse")) install.packages("tidyverse")
   
   # Felhantering.
   if (!all(c("AstSNI2007", "InstKod10") %in% colnames(df))) {
-    stop("Error: Data framen som matas in måste innehålla kolumnerna 'AstSNI2007' and 'InstKod10'.")
+    stop("Error: Data framen som matas in måste innehålla kolumnerna 'AstSNI2007' och 'InstKod10'.")
   }
   
   # Uppdaterar och returnerar en data frame.
