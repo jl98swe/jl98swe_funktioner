@@ -3,12 +3,12 @@ kombinera_filer_func <- function(
     utdata_sokvag = NULL,                    # Sökväg för att spara utdatafilerna (valfritt, standard är att inte spara).
     fil_monster = "\\.(xlsx|xls|csv)$",      # Mönster för att matcha Excel- och CSV-filer (standard).
     kolumn_typer = "text",                   # Kolumntyper vid inläsning av Excel-filer.
+    kolumn_enkla_namn = TRUE,                # Om kolumnnamnen ska rensas från versaler, ovanliga tecken, mellanrum osv.
     spara_excel = FALSE,                     # Spara kombinerade data som en Excel-fil (standard är FALSE).
     flera_blad = FALSE,                      # Spara i separata blad om TRUE, eller en enda tabell annars.
     spara_csv = FALSE,                       # Spara kombinerade data som en CSV-fil (standard är FALSE).
     csv_filnamn = "sammanstallt_data.csv",   # Filnamn för CSV-filen.
     excel_filnamn = "sammanstallt_data.xlsx" # Filnamn för Excel-filen.
-    
 ) {
   # -------------------------------------------------------------------
   # Läser in flera filer av samma typ från en mapp och kombinerar dessa, i regel Excel- och CSV-filer.
@@ -26,8 +26,9 @@ kombinera_filer_func <- function(
   
   # Ladda nödvändiga paket.
   if (!require("readxl")) install.packages("readxl")        # För att läsa in xls- och xlsx-filer.
-  if (!require("writexl")) install.packages("writexl")      # För att spara 
-  if (!require("tidyverse")) install.packages("tidyverse")  # För datamanipulering.
+  if (!require("writexl")) install.packages("writexl")      # För att skriva xlsx-filen. 
+  if (!require("tidyverse")) install.packages("tidyverse")  # För datamanipulering och för att läsa och skriva CSV-filer.
+  if (!require("janitor")) install.packages("janitor")      # För att förenkla kolumnnamnen.
   
   # Läs in filvägar som matchar mönstret.
   filer_sokvag <- list.files(path = indata_sokvag, 
@@ -66,6 +67,9 @@ kombinera_filer_func <- function(
     # Kombinera till en gemensam data frame.
     sammanstallt_data <- bind_rows(sammanstallt_data, data)
   }
+  
+  # Förenkla kolumnnamnen.
+  if (kolumn_enkla_namn) {sammanstallt_data <- sammanstallt_data %>% clean_names()}
   
   # Spara data om användaren har valt det.
   if (!is.null(utdata_sokvag)) {
