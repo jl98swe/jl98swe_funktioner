@@ -26,7 +26,7 @@ skapa_paj_donutdiagram <- function(data,
   #   - titel_legend: (Sträng eller NULL) Titel för legenden. Standard är NULL, och om inte angett sätts det till x_kolumn med stor bokstav.
   #
   # Utdata:
-  #   - Ett ggplot-objekt som representerar ett donut-diagram.
+  #   - Ett ggplot-objekt som representerar ett paj- eller donutdiagram.
   # -------------------------------------------------------------------
   
   # Ladda nödvändiga paket.
@@ -52,7 +52,7 @@ skapa_paj_donutdiagram <- function(data,
     titel_legend <- tools::toTitleCase(x_kolumn)
   }
   
-  # Skapa donut chart.
+  # Skapa diagram.
   donut <- ggplot(data,
                   aes(x = "", y = !!sym(y_kolumn),
                       fill = !!sym(x_kolumn))) +
