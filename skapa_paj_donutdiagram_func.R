@@ -68,6 +68,7 @@ skapa_paj_donutdiagram <- function(data,
     titel_legend <- tools::toTitleCase(x_kolumn)
   }
   
+<<<<<<< HEAD
   # Skapa färgpalett.
   n_categories <- n_distinct(data[[x_kolumn]]) # Räkna antal kategorier.
   
@@ -89,6 +90,9 @@ skapa_paj_donutdiagram <- function(data,
   # ------------ Skapa figur ------------
   
   # Skapa figur.
+=======
+  # Skapa diagram.
+>>>>>>> 64ea946ac22a8cc0e1ede207b5db1cd9f863aa57
   donut <- ggplot(data,
                   aes(x = "", y = !!sym(y_kolumn),
                       fill = !!sym(x_kolumn))) +
